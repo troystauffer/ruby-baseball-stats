@@ -28,6 +28,6 @@ To load in new player and statistical data, run `sudo bstats import` from a dire
 
 ## TODO List
 * Import needs work:
-** Move DB out of /Library/Ruby/Gems into user writable space so that 'sudo' isn't needed to write to it
-** Allow more dynamic command line management, like filenames (OptionParser)
+  * Move DB out of /Library/Ruby/Gems into user writable space so that 'sudo' isn't needed to write to it, allows global install instead of local install and need to add local gem dir to path
+  * Allow more dynamic command line management, like filenames (OptionParser)
 * Data model addresses immediate requirements only, could be broken out for more granular and performant data analysis
