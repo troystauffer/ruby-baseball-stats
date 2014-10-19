@@ -15,6 +15,7 @@ First, the gem depends on a few other libraries:
 * Active Record
 * SQLite3
 * RSpec (only needed if running the tests from source)
+
 If you already have those, great, just install the gem and go. If not, there's a Gemfile in the source you can use with Bundler to get all the needed dependencies. Alternately, just install the gems individually, that works too.
 ### Installing The Gem
 Just like any other gem:
