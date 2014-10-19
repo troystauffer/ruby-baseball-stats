@@ -19,7 +19,7 @@ First, the gem depends on a few other libraries:
 If you already have those, great, just install the gem and go. If not, there's a Gemfile in the source you can use with Bundler to get all the needed dependencies. Alternately, just install the gems individually, that works too.
 ### Installing The Gem
 Just like any other gem:
-`sudo gem install bstats`
+`gem install bstats`
 It's been pushed to RubyGems.org so it's ready and waiting to be pulled down, installed, and run.
 ## Running The Script
 It comes pre-loaded with the stats and players needed to determine the stat winners, so after installing you can just run `bstats` from anywhere and see the results.
