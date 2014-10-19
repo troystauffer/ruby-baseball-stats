@@ -8,8 +8,11 @@ begin
 		dp = BStats::DataPersistence.new()
 	 	dp.teardown_db()
 	 	dp.initialize_db()
-		BStats::Player.import_csv('Master-small.csv')
-		BStats::PlayerBattingStat.import_csv('Batting-07-12.csv')
+	 	puts "Importing data..."
+	 	player_file = File.join(Dir.pwd, 'Master-small.csv')
+	 	stats_file = File.join(Dir.pwd, 'Batting-07-12.csv')
+		BStats::Player.import_csv(player_file)
+		BStats::PlayerBattingStat.import_csv(stats_file)
 	end
 
 	ba_winner = BStats::NumberCrunch.most_improved_batting_average(from_year=2009, to_year=2010)
@@ -33,7 +36,10 @@ begin
 	nl12 = BStats::NumberCrunch.triple_crown_winner('NL', 2012)
 	puts "2012 NL Triple Crown Winner: #{nl12}"
 
-rescue => e
+rescue Errno::ENOENT => e
+	puts "Files needed to import aren't in the directory calling this script. Include 'Master-small.csv' and 'Batting-07-12.csv' in the directory from which you execute this script."
+rescue Exception => e
+	puts e.class
 	puts e.inspect
 	puts e.backtrace
 end

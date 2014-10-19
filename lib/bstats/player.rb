@@ -9,13 +9,18 @@ module BStats
 		validates :birth_year, numericality: true
 
 		def self.import_csv(file)
-			CSV.foreach(file, headers: true) do |row|
-				player = Player.new()
-				player.external_id = row['playerID'].to_s
-				player.birth_year = row['birthYear'].to_i
-				player.first_name = row['nameFirst'].to_s
-				player.last_name = row['nameLast'].to_s
-				player.save
+			begin
+				CSV.foreach(file, headers: true) do |row|
+					player = Player.new()
+					player.external_id = row['playerID'].to_s
+					player.birth_year = row['birthYear'].to_i
+					player.first_name = row['nameFirst'].to_s
+					player.last_name = row['nameLast'].to_s
+					player.save
+				end
+			rescue CSV::MalformedCSVError => e
+				# certain csv's have file endings that the CSV library doesn't like. Windows may or may not have something to do with that
+				# TODO: log file ending failure
 			end
 		end
 	end

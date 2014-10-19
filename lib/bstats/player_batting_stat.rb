@@ -9,25 +9,30 @@ module BStats
 		validates :games, :at_bats, :runs, :hits, :doubles, :triples, :home_runs, :runs_batted_in, :stolen_bases, :caught_stealing, numericality: true
 
 		def self.import_csv(file)
-			CSV.foreach(file, headers: true) do |row|
-				stat = PlayerBattingStat.new()
-				stat.external_id = row['playerID'].to_s
-				stat.year = row['yearID'].to_s
-				stat.league = row['league'].to_s
-				stat.team_id = row['teamID'].to_s
-				stat.games = row['G'].to_i
-				stat.at_bats = row['AB'].to_i
-				stat.runs = row['R'].to_i
-				stat.hits = row['H'].to_i
-				stat.doubles = row['2B'].to_i
-				stat.triples = row['3B'].to_i
-				stat.home_runs = row['HR'].to_i
-				stat.runs_batted_in = row['RBI'].to_i
-				stat.stolen_bases = row['SB'].to_i
-				stat.caught_stealing = row['CS'].to_i
-				stat.batting_average = self.calculate_batting_average(stat.hits, stat.at_bats)
-				stat.slugging_percentage = self.calculate_slugging_percentage(stat.hits, stat.doubles, stat.triples, stat.home_runs, stat.at_bats)
-				stat.save
+			begin
+				CSV.foreach(file, headers: true) do |row|
+					stat = PlayerBattingStat.new()
+					stat.external_id = row['playerID'].to_s
+					stat.year = row['yearID'].to_s
+					stat.league = row['league'].to_s
+					stat.team_id = row['teamID'].to_s
+					stat.games = row['G'].to_i
+					stat.at_bats = row['AB'].to_i
+					stat.runs = row['R'].to_i
+					stat.hits = row['H'].to_i
+					stat.doubles = row['2B'].to_i
+					stat.triples = row['3B'].to_i
+					stat.home_runs = row['HR'].to_i
+					stat.runs_batted_in = row['RBI'].to_i
+					stat.stolen_bases = row['SB'].to_i
+					stat.caught_stealing = row['CS'].to_i
+					stat.batting_average = self.calculate_batting_average(stat.hits, stat.at_bats)
+					stat.slugging_percentage = self.calculate_slugging_percentage(stat.hits, stat.doubles, stat.triples, stat.home_runs, stat.at_bats)
+					stat.save
+				end
+			rescue CSV::MalformedCSVError => e
+				# certain csv's have file endings that the CSV library doesn't like. Windows may or may not have something to do with that
+				# TODO: log file ending failure
 			end
 		end
 

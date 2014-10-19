@@ -24,7 +24,10 @@ class CreatePlayerBattingStatsTable < ActiveRecord::Migration
   end 
 
   def down
-    drop_table :player_batting_stats
+    drop_table :player_batting_stats if table_exists?(:player_batting_stats)
   end
 
+  def self.table_exists?(name)
+    ActiveRecord::Base.connection.tables.include?(name)
+  end
 end

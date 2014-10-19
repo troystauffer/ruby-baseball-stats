@@ -12,7 +12,10 @@ class CreatePlayersTable < ActiveRecord::Migration
   end 
 
   def down
-    drop_table :players
+    drop_table :players if table_exists?(:players)
   end
 
+  def self.table_exists?(name)
+    ActiveRecord::Base.connection.tables.include?(name)
+  end
 end
